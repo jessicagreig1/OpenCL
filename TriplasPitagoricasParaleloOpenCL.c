@@ -6,7 +6,7 @@
 #include <CL/opencl.h>
 #endif
 #include <time.h> //clock(), CLOCKS_PER_SEC e clock_t
-#define ARRAY_LENGTH 25
+#define ARRAY_LENGTH 1000
 
 int main(int argc, char** argv) {
     /* Variáveis para armazenamento de referências a
@@ -22,7 +22,8 @@ int main(int argc, char** argv) {
     cl_mem bufValorB;
     cl_mem bufValorC;
     cl_mem bufContador;
-    size_t globalSize[1] = { ARRAY_LENGTH };
+    size_t globalSize[1] = { 1024 };
+    size_t localSize[1] = { 256 };
 
     /* Variáveis diversas da aplicação */
     int* hostValorA;
@@ -42,19 +43,17 @@ int main(int argc, char** argv) {
     "__kernel void Triplas(__global int* a, __global int* b, __global int* c, __global int* contador) \
         { \
             int x,j,k; \
-            int quantidade = 100; \
+            int quantidade = 1000; \
             int id = get_global_id(0); \
-            for (x = 1; x < quantidade; ++x){ \
-                for (j = x; j < quantidade; ++j){ \
+                for (j = id; j < quantidade; ++j){ \
                     for (k = j; k <= quantidade; ++k){ \
-                        if( (x*x)+(j*j)==(k*k) ){\
+                        if( (id*id)+(j*j)==(k*k) ){\
                             contador[0]+=1; \
-                            a[contador[0]]=x;\
+                            a[contador[0]]=id;\
                             b[contador[0]]=j;\
                             c[contador[0]]=k;\
                         } \
                     } \
-                } \
             } \
         }";
 
@@ -97,7 +96,7 @@ int main(int argc, char** argv) {
     clSetKernelArg(kernel, 3, sizeof(cl_mem), &bufContador);
     
     /* Envio do kernel para execução no dispositivo */
-    clEnqueueNDRangeKernel(queue, kernel, 1, NULL, globalSize, NULL, 0, NULL, NULL);
+    clEnqueueNDRangeKernel(queue, kernel, 1, NULL, globalSize, localSize, 0, NULL, NULL);
 
     /* Sincronização (bloqueia hospedeiro até término da execução do kernel */
     clFinish(queue);
@@ -110,7 +109,7 @@ int main(int argc, char** argv) {
 
     
    /* criação do arquivo para salvar as triplas */
-    fPtr = fopen("tripla.txt", "w");
+    fPtr = fopen("tripla_paralelo.txt", "w");
 
     /* caso a criação do arquivo não tenha sido bem sucedida. */
     if(fPtr == NULL)
@@ -123,12 +122,12 @@ int main(int argc, char** argv) {
 
         /* Impressão dos resultados na saída padrão */
         for (i = 1; i <= hostContador[0]; ++i){
-            // printf("i = %d c=%d\n",i,hostValorC[i]);
-            printf("a = %d b=%d  c=%d\n",hostValorA[i], hostValorB[i], hostValorC[i]);
+            // printf("i = %d\n",hostContador[i]);
+            // printf("a = %d b=%d  c=%d\n",hostValorA[i], hostValorB[i], hostValorC[i]);
             fprintf(fPtr,"(a = %d, b= %d, c=%d) \n",hostValorA[i], hostValorB[i], hostValorC[i]);
         }
     }
-        printf("contador = %d\n", hostContador[0]);
+        // printf("contador = %d\n", hostContador[0]);
         fprintf(fPtr,"\n Total de triplas: %d",hostContador[0]);
         fclose(fPtr);
 
