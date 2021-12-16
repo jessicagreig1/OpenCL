@@ -5,9 +5,9 @@ repositório criado para a matéria de computação de alto desempenho com o int
      <a> Tripla Pitagórica em openCL</a>
 </h2>
 
-<h3 align="center">
+<p align="center">
     Os códigos deste projeto tem como função encontrar triplas pitagóricas em um intervalo determinado. Fazendo uso da linguagem C o problema é executado em forma serial e também paralela com uso do openCL, e assim é gerado um arquivo .txt contendo as triplas encontradas.
-</h3>
+</p>
 
 <h4 align="left">
 	🚧   Status: Concluído 🚀 🚧
