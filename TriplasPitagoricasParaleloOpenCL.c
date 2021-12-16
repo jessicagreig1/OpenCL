@@ -38,25 +38,26 @@ int main(int argc, char** argv) {
     //variável para armazenar tempo
     clock_t time_host, time_kernel;
 
-    /* Código-fonte do kernel */
+       /* Código-fonte do kernel */
     const char* source = 
     "__kernel void Triplas(__global int* a, __global int* b, __global int* c, __global int* contador) \
         { \
             int x,j,k; \
-            int quantidade = 1000; \
+            int quantidade = 100; \
             int id = get_global_id(0); \
-                for (j = id; j < quantidade; ++j){ \
+            for (x = id+1; x< quantidade; ++x){ \
+                for (j = x; j < quantidade; ++j){ \
                     for (k = j; k <= quantidade; ++k){ \
-                        if( (id*id)+(j*j)==(k*k) ){\
+                        if( (x*x)+(j*j)==(k*k) ){\
                             contador[0]+=1; \
-                            a[contador[0]]=id;\
+                            a[contador[0]]=x;\
                             b[contador[0]]=j;\
                             c[contador[0]]=k;\
                         } \
                     } \
+                } \
             } \
         }";
-
             /* Alocação e inicialização dos arrays no hospedeiro */
         hostValorA = (int*) malloc(ARRAY_LENGTH * sizeof(int));
         hostValorB = (int*) malloc(ARRAY_LENGTH * sizeof(int));
