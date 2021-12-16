@@ -6,7 +6,7 @@
 #include <CL/opencl.h>
 #endif
 #include <time.h> //clock(), CLOCKS_PER_SEC e clock_t
-#define ARRAY_LENGTH 1000
+#define ARRAY_LENGTH 100
 
 int main(int argc, char** argv) {
     /* Variáveis para armazenamento de referências a
@@ -22,8 +22,8 @@ int main(int argc, char** argv) {
     cl_mem bufValorB;
     cl_mem bufValorC;
     cl_mem bufContador;
-    size_t globalSize[1] = { 1024 };
-    size_t localSize[1] = { 256 };
+    size_t globalSize[1] = { ARRAY_LENGTH };
+    //size_t localSize[1] = { 256 };
 
     /* Variáveis diversas da aplicação */
     int* hostValorA;
@@ -38,26 +38,25 @@ int main(int argc, char** argv) {
     //variável para armazenar tempo
     clock_t time_host, time_kernel;
 
-       /* Código-fonte do kernel */
+     /* Código-fonte do kernel */
     const char* source = 
     "__kernel void Triplas(__global int* a, __global int* b, __global int* c, __global int* contador) \
         { \
             int x,j,k; \
             int quantidade = 100; \
             int id = get_global_id(0); \
-            for (x = id+1; x< quantidade; ++x){ \
-                for (j = x; j < quantidade; ++j){ \
+                for (j = id; j < quantidade; ++j){ \
                     for (k = j; k <= quantidade; ++k){ \
-                        if( (x*x)+(j*j)==(k*k) ){\
-                            contador[0]+=1; \
-                            a[contador[0]]=x;\
-                            b[contador[0]]=j;\
-                            c[contador[0]]=k;\
+                        if( (id*id)+(j*j)==(k*k) ){\
+                            contador[0]=+1;\
+                            a[id]=id;\
+                            b[id]=j;\
+                            c[id]=k;\
                         } \
                     } \
-                } \
             } \
         }";
+
             /* Alocação e inicialização dos arrays no hospedeiro */
         hostValorA = (int*) malloc(ARRAY_LENGTH * sizeof(int));
         hostValorB = (int*) malloc(ARRAY_LENGTH * sizeof(int));
@@ -92,12 +91,12 @@ int main(int argc, char** argv) {
    
     /* Configuração dos argumentos do kernel */
     clSetKernelArg(kernel, 0, sizeof(cl_mem), &bufValorA);
-    clSetKernelArg(kernel, 1, sizeof(cl_mem), &bufValorC);
-    clSetKernelArg(kernel, 2, sizeof(cl_mem), &bufValorB);
+    clSetKernelArg(kernel, 1, sizeof(cl_mem), &bufValorB);
+    clSetKernelArg(kernel, 2, sizeof(cl_mem), &bufValorC);
     clSetKernelArg(kernel, 3, sizeof(cl_mem), &bufContador);
     
     /* Envio do kernel para execução no dispositivo */
-    clEnqueueNDRangeKernel(queue, kernel, 1, NULL, globalSize, localSize, 0, NULL, NULL);
+    clEnqueueNDRangeKernel(queue, kernel, 1, NULL, globalSize, NULL, 0, NULL, NULL);
 
     /* Sincronização (bloqueia hospedeiro até término da execução do kernel */
     clFinish(queue);
@@ -122,13 +121,13 @@ int main(int argc, char** argv) {
         fprintf(fPtr,"\n  ✩｡:*•.─────  ❁  Triplas Pitagóricas ❁  ─────.•*:｡✩  \n \n");
 
         /* Impressão dos resultados na saída padrão */
-        for (i = 1; i <= hostContador[0]; ++i){
+        for (i = 1; i <= ARRAY_LENGTH; ++i){
             // printf("i = %d\n",hostContador[i]);
-            // printf("a = %d b=%d  c=%d\n",hostValorA[i], hostValorB[i], hostValorC[i]);
+            printf("a = %d b=%d  c=%d\n",hostValorA[i], hostValorB[i], hostValorC[i]);
             fprintf(fPtr,"(a = %d, b= %d, c=%d) \n",hostValorA[i], hostValorB[i], hostValorC[i]);
         }
     }
-        // printf("contador = %d\n", hostContador[0]);
+        printf("contador = %d\n", hostContador[0]);
         fprintf(fPtr,"\n Total de triplas: %d",hostContador[0]);
         fclose(fPtr);
 
