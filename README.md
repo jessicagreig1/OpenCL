@@ -63,12 +63,14 @@ Os arquivos são no formato txt. O conteúdo são as triplas encontradas e quant
 
 <a href="https://github.com/osvaldolimeirasantos">
  <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/91644823?v=4" width="100px;" alt=""/>
- <sub><b>Osvaldo Limeira</b></sub></a> <a href="https://github.com/osvaldolimeirasantos" title="Rocketseat"></a>
+ <sub><b>Osvaldo Limeira</b></sub></a> <a href="https://github.com/osvaldolimeirasantos" title="git Osvaldo Limeira">
+</a>
 
 
 <a href="https://github.com/jessicagreig1">
  <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/34080482?v=4" width="100px;" alt=""/>
- <sub><b>Jessica Cerqueira </b></sub></a> <a href="https://github.com/jessicagreig1" title="Rocketseat"></a>
+ <sub><b>Jessica Cerqueira </b></sub></a> <a href="https://github.com/jessicagreig1" title="git Jéssica Cerqueira">
+</a>
  <br />
 
 
