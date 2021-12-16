@@ -1,9 +1,9 @@
 # Objetivo
 repositório criado para a matéria de computação de alto desempenho com o intuíto de demonstrar a paralelização do problema de triplas pitagóricas com openCL.
 
-<h1 align="center">
+<h2 align="center">
      <a> Tripla Pitagórica em openCL</a>
-</h1>
+</h2>
 
 <h3 align="center">
     Os códigos deste projeto tem como função encontrar triplas pitagóricas em um intervalo determinado. Fazendo uso da linguagem C o problema é executado em forma serial e também paralela com uso do openCL, e assim é gerado um arquivo .txt contendo as triplas encontradas.
@@ -40,7 +40,7 @@ O código TriplasPitagoricasParaleloOpenCL.c possui no código do KERNEL três l
 
 ## 🚀 Como executar o projeto
 
-#### Pré-requisitos: É necessário possuir um compilador GCC e SKD especifico openCL especifico para a sua máquina.
+#### Pré-requisitos: É necessário possuir um compilador GCC e SKD especifico openCL para a sua máquina.
 
 Para executar o código serial, o arquivo TriplasPitagoricasSerial.c deve ser copiado para o servidor e estando no local onde o arquivo foi salvo, deve ser executado o seguinte comando: 
 
