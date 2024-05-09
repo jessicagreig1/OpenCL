@@ -1,5 +1,5 @@
 # Objetivo
-repositório criado para a matéria de computação de alto desempenho com o intuíto de demonstrar a paralelização do problema de triplas pitagóricas com openCL.
+Demonstrar a paralelização do problema de triplas pitagóricas com openCL.
 
 <h2 align="center">
      <a> Tripla Pitagórica em openCL</a>
